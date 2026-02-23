@@ -36,23 +36,23 @@ print("F1-Score:",f1_score(y_test,y_pred))
 print("\n Confusion Matrix =:\n, confusuin_matrix(y_test,y_pred)")
 print("\n Classification Report =:\n",classification_report(y_test,y_pred))
 
+single_model=DecisionTreeClassifier(max_depth=1,random_state=42)
+single_model.fit(X_train,y_train)
+single_pred=single_model.predict(X_test)
 
-Output:
-adaBoost Evaluation
-Accuracy: 0.956140350877193
-Precision: 0.9583333333333334
-Recall: 0.971830985915493
-F1-Score: 0.965034965034965
+print("\nSingl tree Accuracy:", accuracy_score(y_test,single_pred))
+print("AdaBoosting Accuracy  :", accuracy_score(y_test,y_pred))
 
- Confusion Matrix =:
-, confusuin_matrix(y_test,y_pred)
 
- Classification Report =:
-               precision    recall  f1-score   support
+fpr,tpr,_=roc_curve(y_test,y_prob)
+auc=roc_auc_score(y_test,y_prob)
 
-           0       0.95      0.93      0.94        43
-           1       0.96      0.97      0.97        71
-
-    accuracy                           0.96       114
-   macro avg       0.96      0.95      0.95       114
-weighted avg       0.96      0.96      0.96       114
+plt.figure()
+plt.plot(fpr,tpr, label=f"AdaBoost (AUC={auc:.3f})")
+plt.plot([0,1],[0,1],linestyle="--")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve - AdaBoost (Boosting)")
+plt.legend()
+plt.legend()
+plt.show()
